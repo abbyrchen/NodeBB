@@ -27,7 +27,7 @@ interface Groups {
     updateCoverPosition(groupName: string, position: number): Promise<void>;
     updateCover(uid: string, data: GroupData): Promise<{ url: string }>;
     removeCover(data: { groupName: string }): Promise<void>;
-    setGroupField(groupName: string, field: string, value: number): Promise<void>;
+    setGroupField(groupName: string, field: string, value: number | string): Promise<void>;
     getGroupFields(groupName: string, fields: string[]): Promise<{ [key: string]: string }>;
 }
 
@@ -49,9 +49,6 @@ export default function (Groups: Groups) {
                 await Groups.updateCoverPosition(data.groupName, data.position);
                 return { url: '' }; // Return an empty object
             }
-            // The next line calls a function in a module that has not been updated to TS yet
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-            @typescript-eslint/no-unsafe-call */
             const type: string = data.file ? data.file.type : image.mimeFromBase64(data.imageData);
             if (!type || !allowedTypes.includes(type)) {
                 throw new Error('[[error:invalid-image]]');

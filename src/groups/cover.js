@@ -33,9 +33,6 @@ function default_1(Groups) {
                     yield Groups.updateCoverPosition(data.groupName, data.position);
                     return { url: '' }; // Return an empty object
                 }
-                // The next line calls a function in a module that has not been updated to TS yet
-                /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-                @typescript-eslint/no-unsafe-call */
                 const type = data.file ? data.file.type : image.mimeFromBase64(data.imageData);
                 if (!type || !allowedTypes.includes(type)) {
                     throw new Error('[[error:invalid-image]]');
