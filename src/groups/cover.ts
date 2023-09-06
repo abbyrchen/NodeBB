@@ -16,7 +16,7 @@ interface GroupData {
     }
 }
 
-interface Data {
+interface UploadData {
     path: string;
     uid: string;
     name: string;
@@ -66,7 +66,7 @@ export default function (Groups: Groups) {
             // The next line calls a function in a module that has not been updated to TS yet
             /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
             @typescript-eslint/no-unsafe-call */
-            const uploadData: Data = await image.uploadImage(filename, 'files', {
+            const uploadData: UploadData = await image.uploadImage(filename, 'files', {
                 path: tempPath,
                 uid: uid,
                 name: 'groupCover',
