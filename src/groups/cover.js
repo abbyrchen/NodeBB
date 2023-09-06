@@ -33,6 +33,9 @@ function default_1(Groups) {
                     yield Groups.updateCoverPosition(data.groupName, data.position);
                     return { url: '' }; // Return an empty object
                 }
+                // The next line calls a function in a module that has not been updated to TS yet
+                /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
+                @typescript-eslint/no-unsafe-assignment */
                 const type = data.file ? data.file.type : image.mimeFromBase64(data.imageData);
                 if (!type || !allowedTypes.includes(type)) {
                     throw new Error('[[error:invalid-image]]');
@@ -43,7 +46,7 @@ function default_1(Groups) {
                 const filename = `groupCover-${data.groupName}${path.extname(tempPath)}`;
                 // The next line calls a function in a module that has not been updated to TS yet
                 /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-                @typescript-eslint/no-unsafe-call */
+                @typescript-eslint/no-unsafe-assignment */
                 const uploadData = yield image.uploadImage(filename, 'files', {
                     path: tempPath,
                     uid: uid,
@@ -60,7 +63,7 @@ function default_1(Groups) {
                 });
                 // The next line calls a function in a module that has not been updated to TS yet
                 /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-                @typescript-eslint/no-unsafe-call */
+                @typescript-eslint/no-unsafe-assignment */
                 const thumbUploadData = yield image.uploadImage(`groupCoverThumb-${data.groupName}${path.extname(tempPath)}`, 'files', {
                     path: tempPath,
                     uid: uid,
@@ -100,13 +103,7 @@ function default_1(Groups) {
                 if (!values[field] || !values[field].startsWith(`${nconf.get('relative_path')}/assets/uploads/files/`)) {
                     return;
                 }
-                // The next line calls a function in a module that has not been updated to TS yet
-                /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-                @typescript-eslint/no-unsafe-call */
                 const filename = values[field].split('/').pop();
-                // The next line calls a function in a module that has not been updated to TS yet
-                /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-                @typescript-eslint/no-unsafe-call */
                 const filePath = path.join(nconf.get('upload_path'), 'files', filename);
                 return file.delete(filePath);
             }));
