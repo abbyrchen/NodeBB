@@ -79,24 +79,15 @@ function default_1(Groups) {
                 return { url: url };
             }
             finally {
-                file.delete(tempPath);
+                yield file.delete(tempPath);
             }
         });
     };
-    // The next line calls a function in a module that has not been updated to TS yet
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-    @typescript-eslint/no-unsafe-call */
     Groups.removeCover = function (data) {
         return __awaiter(this, void 0, void 0, function* () {
-            // The next line calls a function in a module that has not been updated to TS yet
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-            @typescript-eslint/no-unsafe-call */
             const fields = ['cover:url', 'cover:thumb:url'];
             const values = yield Groups.getGroupFields(data.groupName, fields);
-            // The next line calls a function in a module that has not been updated to TS yet
-            /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-            @typescript-eslint/no-unsafe-call */
-            yield Promise.all(fields.map((field) => {
+            yield Promise.all(fields.map((field) => __awaiter(this, void 0, void 0, function* () {
                 // The next line calls a function in a module that has not been updated to TS yet
                 /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
                 @typescript-eslint/no-unsafe-call */
@@ -105,8 +96,8 @@ function default_1(Groups) {
                 }
                 const filename = values[field].split('/').pop();
                 const filePath = path.join(nconf.get('upload_path'), 'files', filename);
-                return file.delete(filePath);
-            }));
+                yield file.delete(filePath);
+            })));
             // The next line calls a function in a module that has not been updated to TS yet
             /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
             @typescript-eslint/no-unsafe-call */

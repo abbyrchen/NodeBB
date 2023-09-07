@@ -99,23 +99,14 @@ export default function (Groups: Groups) {
             }
             return { url: url };
         } finally {
-            file.delete(tempPath);
+            await file.delete(tempPath);
         }
     };
 
-    // The next line calls a function in a module that has not been updated to TS yet
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-    @typescript-eslint/no-unsafe-call */
     Groups.removeCover = async function (data: { groupName: string }): Promise<void> {
-        // The next line calls a function in a module that has not been updated to TS yet
-        /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-        @typescript-eslint/no-unsafe-call */
         const fields = ['cover:url', 'cover:thumb:url'];
         const values = await Groups.getGroupFields(data.groupName, fields);
-        // The next line calls a function in a module that has not been updated to TS yet
-        /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
-        @typescript-eslint/no-unsafe-call */
-        await Promise.all(fields.map((field) => {
+        await Promise.all(fields.map(async (field) => {
             // The next line calls a function in a module that has not been updated to TS yet
             /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
             @typescript-eslint/no-unsafe-call */
@@ -124,7 +115,7 @@ export default function (Groups: Groups) {
             }
             const filename = values[field].split('/').pop();
             const filePath = path.join(nconf.get('upload_path'), 'files', filename);
-            return file.delete(filePath);
+            await file.delete(filePath);
         }));
 
         // The next line calls a function in a module that has not been updated to TS yet
