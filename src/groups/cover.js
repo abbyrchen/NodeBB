@@ -8,13 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const nconf = require("nconf");
 const db = require("../database");
 const image = require("../image");
 const file = require("../file");
-function default_1(Groups) {
+module.exports = (Groups) => {
     const allowedTypes = ['image/png', 'image/jpeg', 'image/bmp'];
     Groups.updateCoverPosition = function (groupName, position) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -91,11 +90,13 @@ function default_1(Groups) {
                 // The next line calls a function in a module that has not been updated to TS yet
                 /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
                 @typescript-eslint/no-unsafe-call */
-                if (!values[field] || !values[field].startsWith(`${nconf.get('relative_path')}/assets/uploads/files/`)) {
+                const relativePath = nconf.get('relative_path');
+                if (!values[field] || !values[field].startsWith(`${relativePath}/assets/uploads/files/`)) {
                     return;
                 }
                 const filename = values[field].split('/').pop();
-                const filePath = path.join(nconf.get('upload_path'), 'files', filename);
+                const uploadPath = nconf.get('upload_path');
+                const filePath = path.join(uploadPath, 'files', filename);
                 yield file.delete(filePath);
             })));
             // The next line calls a function in a module that has not been updated to TS yet
@@ -104,5 +105,4 @@ function default_1(Groups) {
             yield db.deleteObjectFields(`group:${data.groupName}`, ['cover:url', 'cover:thumb:url', 'cover:position']);
         });
     };
-}
-exports.default = default_1;
+};

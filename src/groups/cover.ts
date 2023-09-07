@@ -31,7 +31,7 @@ interface Groups {
     getGroupFields(groupName: string, fields: string[]): Promise<{ [key: string]: string }>;
 }
 
-export default function (Groups: Groups) {
+export = (Groups: Groups) => {
     const allowedTypes = ['image/png', 'image/jpeg', 'image/bmp'];
 
     Groups.updateCoverPosition = async function (groupName: string, position: number): Promise<void> {
@@ -110,11 +110,13 @@ export default function (Groups: Groups) {
             // The next line calls a function in a module that has not been updated to TS yet
             /* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,
             @typescript-eslint/no-unsafe-call */
-            if (!values[field] || !values[field].startsWith(`${nconf.get('relative_path')}/assets/uploads/files/`)) {
+            const relativePath = nconf.get('relative_path') as string;
+            if (!values[field] || !values[field].startsWith(`${relativePath}/assets/uploads/files/`)) {
                 return;
             }
             const filename = values[field].split('/').pop();
-            const filePath = path.join(nconf.get('upload_path'), 'files', filename);
+            const uploadPath = nconf.get('upload_path') as string;
+            const filePath = path.join(uploadPath, 'files', filename);
             await file.delete(filePath);
         }));
 
